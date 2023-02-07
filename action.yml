@@ -1,0 +1,30 @@
+name: 'Publish PDF Version Action'
+description: 'Generate a new pdf for each version released'
+inputs:
+  region:
+    description: "The region of the bucket"
+    required: true
+  accessKeyId:
+    description: "AWS access key to bucket"
+    required: true
+  secretAccessKey:
+    description: "AWS secret access key to bucket"
+    required: true
+  version:
+    description: 'Current version of Limbic Access'
+    required: true
+  bucket:
+    description: 'S3 bucket name'
+    required: true
+  baseUrl:
+    description: 'S3 bucket url'
+    required: true
+  basePdf:
+    description: 'Name of the base PDF'
+    required: true
+outputs:
+  url:
+    description: 'The URL of the uploaded pdf'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

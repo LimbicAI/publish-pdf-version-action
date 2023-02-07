@@ -6,7 +6,7 @@ const S3 = require('aws-sdk/clients/s3');
 const { PDFDocument } = require("pdf-lib");
 const { setOutput } = require("@actions/core");
 
-const Bucket = core.getInput('limbic-web-bot-versioning');
+const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 

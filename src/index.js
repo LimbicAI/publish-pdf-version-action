@@ -2,7 +2,7 @@
 const puppeteer = require('puppeteer');
 const hb = require('handlebars');
 const core = require("@actions/core");
-const { readFileSync } = require("fs");
+const { readFileSync, readDirSync } = require("fs");
 const S3 = require('aws-sdk/clients/s3');
 const { PDFDocument } = require("pdf-lib");
 const { setOutput } = require("@actions/core");
@@ -153,6 +153,11 @@ async function generatePdf() {
 	/**
 	 * creating the template from html using handlebars
 	 */
+
+	console.log({dir: __dirname})
+	console.log({cwd:  process.cwd()})
+	console.log({files: readDirSync('./')})
+
 	const template = await hb.compile(bodyTemplate, {strict: true});
 	const html = template({
 		version: await getVersion(),

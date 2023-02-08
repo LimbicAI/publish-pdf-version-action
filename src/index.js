@@ -179,10 +179,15 @@ async function generatePdf() {
 		headless: chromium.headless,
 		ignoreHTTPSErrors: true
 	});
+	console.log('puppeteer is launched')
 
 	const page = await browser.newPage();
+	console.log('new page done')
 	await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']})
+	console.log('content is set')
 	await page.addStyleTag({path: __dirname + '/styles/pdf.css'});
+	console.log('style is set')
+
 	const pdf = await page.pdf({
 		format: 'A4',
 		printBackground: true,

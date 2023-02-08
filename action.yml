@@ -26,5 +26,5 @@ outputs:
   url:
     description: 'The URL of the uploaded pdf'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'

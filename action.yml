@@ -35,4 +35,4 @@ runs:
         image: ghcr.io/puppeteer/puppeteer:19.4.1
         name: puppeteer-chrome
         options: '-i --init --cap-add=SYS_ADMIN -v ${{ github.workspace }}:${{ github.workspace }}'
-        args: bash -c 'cp ${{ github.workspace }}/** /home/pptruser && npm install && node dist/index.js)'
+        args: bash -c 'cp ${{ github.workspace }}/** /home/pptruser && npm install && node dist/index.js'

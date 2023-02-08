@@ -154,10 +154,6 @@ async function generatePdf() {
 	 * creating the template from html using handlebars
 	 */
 
-	console.log({dir: __dirname})
-	console.log({cwd:  process.cwd()})
-	console.log({files: readdirSync('./')})
-
 	const template = await hb.compile(bodyTemplate, {strict: true});
 	const html = template({
 		version: await getVersion(),

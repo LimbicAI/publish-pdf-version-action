@@ -11,7 +11,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf && \
     rm -rf /var/lib/apt/lists/*
 
-COPY src/* /
+COPY src/ /
 COPY package.json /
 COPY package-lock.json /
 

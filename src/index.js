@@ -176,7 +176,8 @@ async function generatePdf() {
 	console.log(`Starting PDF generation with ${name} name`)
 	const browser = await puppeteer.launch({
 		args: ['--no-sandbox', '--disable-setuid-sandbox'],
-		headless: true
+		headless: true,
+		executablePath: 'google-chrome-stable'
 	});
 	console.log('puppeteer is launched')
 

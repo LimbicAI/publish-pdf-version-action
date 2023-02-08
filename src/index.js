@@ -159,14 +159,14 @@ async function generatePdf() {
 		shortVersion: await getVersion('short'),
 		releaseDate: await getCurrentDate(),
 		previousFiles: mapped,
-		manufacturer: readFileSync('./assets/manufacturer.png').toString('base64'),
-		dateManufacturer: readFileSync('./assets/dateManufacturer.png').toString('base64'),
-		ref: readFileSync('./assets/ref.png').toString('base64'),
-		lot: readFileSync('./assets/lot.png').toString('base64'),
-		udi: readFileSync('./assets/udi.png').toString('base64'),
-		ukca: readFileSync('./assets/ukca.png').toString('base64'),
-		caution: readFileSync('./assets/caution.png').toString('base64'),
-		eifu: readFileSync('./assets/eifu.png').toString('base64')
+		manufacturer: readFileSync('assets/manufacturer.png').toString('base64'),
+		dateManufacturer: readFileSync('assets/dateManufacturer.png').toString('base64'),
+		ref: readFileSync('assets/ref.png').toString('base64'),
+		lot: readFileSync('assets/lot.png').toString('base64'),
+		udi: readFileSync('assets/udi.png').toString('base64'),
+		ukca: readFileSync('assets/ukca.png').toString('base64'),
+		caution: readFileSync('assets/caution.png').toString('base64'),
+		eifu: readFileSync('assets/eifu.png').toString('base64')
 	});
 
 	/**
@@ -183,7 +183,7 @@ async function generatePdf() {
 	console.log('new page done')
 	await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']})
 	console.log('content is set')
-	await page.addStyleTag({path: './styles/pdf.css'});
+	await page.addStyleTag({path: 'styles/pdf.css'});
 	console.log('style is set')
 
 	const pdf = await page.pdf({

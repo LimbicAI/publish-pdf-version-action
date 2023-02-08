@@ -1,0 +1,54 @@
+body {
+	font-family: "Helvetica Neue", sans-serif;
+	padding: 20px;
+}
+
+h1 {
+	font-weight: 400;
+}
+
+table {
+	font-family: "Helvetica Neue", sans-serif;
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 2px solid black;
+	text-align: left;
+}
+
+th {
+	background: #FF7B99;
+	color: white;
+	font-weight: normal;
+	padding: 10px;
+}
+
+h1 {
+	margin-top: 0;
+}
+
+td {
+	padding: 8px;
+}
+
+.paragraph {
+	margin: 30px 0 20px;
+}
+
+.box {
+	padding: 10px 0 0 0;
+}
+
+.label-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 20px 20px 0 0;
+}
+
+img {
+	width: 50px;
+	height: 50px;
+	margin: 0 20px 0 0;
+}

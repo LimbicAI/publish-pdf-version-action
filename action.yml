@@ -26,5 +26,13 @@ outputs:
   url:
     description: 'The URL of the uploaded pdf'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Run puppeteer
+      id: puppeteer-run
+      uses: tj-actions/docker-run@v2
+      with:
+        image: ghcr.io/puppeteer/puppeteer:19.4.1
+        name: puppeteer-chrome
+        options: '-i --init --cap-add=SYS_ADMIN -v ${{ github.workspace }}:${{ github.workspace }}'
+        args: bash -c 'cp ${{ github.workspace }}/** /home/pptruser && npm install && node dist/index.js)'

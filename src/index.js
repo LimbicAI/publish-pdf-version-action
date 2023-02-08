@@ -179,14 +179,9 @@ async function generatePdf() {
 		headless: true,
 		executablePath: 'google-chrome-stable'
 	});
-	console.log('puppeteer is launched')
-
 	const page = await browser.newPage();
-	console.log('new page done')
 	await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']})
-	console.log('content is set')
 	await page.addStyleTag({path: '/styles/pdf.css'});
-	console.log('style is set')
 
 	const pdf = await page.pdf({
 		format: 'A4',
@@ -209,7 +204,7 @@ async function generatePdf() {
 	/**
 	 * uploading PDF to S3
 	 */
-	await s3.upload({
+	const response = await s3.upload({
 		Bucket,
 		Body: Buffer.from(mergedPdf),
 		Key: `versions/${name}`,
@@ -220,6 +215,9 @@ async function generatePdf() {
 		.promise()
 		.then((res) => core.setOutput('url', res.Location))
 		.catch((err) => core.setFailed(err.message));
+
+	console.log({yooo: response})
+	return response;
 }
 
 generatePdf().catch((err) => core.setFailed(err.message));

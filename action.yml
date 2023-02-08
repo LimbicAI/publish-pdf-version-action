@@ -1,5 +1,8 @@
 name: 'Publish PDF Version Action'
 description: 'Generate a new pdf for each version released'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
 inputs:
   region:
     description: "The region of the bucket"
@@ -25,14 +28,3 @@ inputs:
 outputs:
   url:
     description: 'The URL of the uploaded pdf'
-runs:
-  using: 'composite'
-  steps:
-    - name: Run puppeteer
-      id: puppeteer-run
-      uses: tj-actions/docker-run@v2
-      with:
-        image: ghcr.io/puppeteer/puppeteer:19.4.1
-        name: puppeteer-chrome
-        options: '-i --init --cap-add=SYS_ADMIN -v ${{ github.workspace }}:${{ github.workspace }}'
-        args: bash -c 'cp ${{ github.workspace }}/** /home/pptruser && npm install && node dist/index.js'

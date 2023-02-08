@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer')
-const hb = require('handlebars')
+const puppeteer = require('puppeteer');
+const hb = require('handlebars');
 const core = require("@actions/core");
 const { readFileSync } = require("fs");
 const S3 = require('aws-sdk/clients/s3');
@@ -43,7 +43,7 @@ async function getVersion(type) {
 	/**
 	 * getting current version from input
 	 */
-	const version = core.getInput('version') || '3.0.6';
+	const version = core.getInput('version');
 
 	if (type === 'short') {
 		return version.split('.')[0]
@@ -172,7 +172,10 @@ async function generatePdf() {
 	 * launching puppeteer to generate the version PDF
 	 */
 	console.log(`Starting PDF generation with ${name} name`)
-	const browser = await puppeteer.launch();
+	const browser = await puppeteer.launch({
+		args: ['--no-sandbox', '--disable-setuid-sandbox']
+	});
+
 	const page = await browser.newPage();
 	await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']})
 	await page.addStyleTag({path: __dirname + '/styles/pdf.css'});

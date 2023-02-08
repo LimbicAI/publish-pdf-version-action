@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const puppeteer = require('puppeteer');
 const hb = require('handlebars');
 const core = require("@actions/core");

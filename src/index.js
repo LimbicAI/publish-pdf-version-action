@@ -173,8 +173,11 @@ async function generatePdf() {
 	 */
 	console.log(`Starting PDF generation with ${name} name`)
 	const browser = await chromium.puppeteer.launch({
-		args: ['--no-sandbox', '--disable-setuid-sandbox'],
-
+		args: chromium.args,
+		defaultViewport: chromium.defaultViewport,
+		executablePath: await chromium.executablePath,
+		headless: chromium.headless,
+		ignoreHTTPSErrors: true
 	});
 
 	const page = await browser.newPage();

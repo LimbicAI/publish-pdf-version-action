@@ -1,4 +1,4 @@
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 const hb = require('handlebars');
 const core = require("@actions/core");
 const { readFileSync } = require("fs");
@@ -172,12 +172,9 @@ async function generatePdf() {
 	 * launching puppeteer to generate the version PDF
 	 */
 	console.log(`Starting PDF generation with ${name} name`)
-	const browser = await chromium.puppeteer.launch({
-		args: chromium.args,
-		defaultViewport: chromium.defaultViewport,
-		executablePath: await chromium.executablePath,
-		headless: chromium.headless,
-		ignoreHTTPSErrors: true
+	const browser = await puppeteer.launch({
+		args: ['--no-sandbox', '--disable-setuid-sandbox'],
+		headless: true
 	});
 	console.log('puppeteer is launched')
 

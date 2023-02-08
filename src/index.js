@@ -159,14 +159,14 @@ async function generatePdf() {
 		shortVersion: await getVersion('short'),
 		releaseDate: await getCurrentDate(),
 		previousFiles: mapped,
-		manufacturer: readFileSync(__dirname + '/assets/manufacturer.png').toString('base64'),
-		dateManufacturer: readFileSync(__dirname + '/assets/dateManufacturer.png').toString('base64'),
-		ref: readFileSync(__dirname + '/assets/ref.png').toString('base64'),
-		lot: readFileSync(__dirname + '/assets/lot.png').toString('base64'),
-		udi: readFileSync(__dirname + '/assets/udi.png').toString('base64'),
-		ukca: readFileSync(__dirname + '/assets/ukca.png').toString('base64'),
-		caution: readFileSync(__dirname + '/assets/caution.png').toString('base64'),
-		eifu: readFileSync(__dirname + '/assets/eifu.png').toString('base64')
+		manufacturer: readFileSync(__dirname + 'assets/manufacturer.png').toString('base64'),
+		dateManufacturer: readFileSync(__dirname + 'assets/dateManufacturer.png').toString('base64'),
+		ref: readFileSync(__dirname + 'assets/ref.png').toString('base64'),
+		lot: readFileSync(__dirname + 'assets/lot.png').toString('base64'),
+		udi: readFileSync(__dirname + 'assets/udi.png').toString('base64'),
+		ukca: readFileSync(__dirname + 'assets/ukca.png').toString('base64'),
+		caution: readFileSync(__dirname + 'assets/caution.png').toString('base64'),
+		eifu: readFileSync(__dirname + 'assets/eifu.png').toString('base64')
 	});
 
 	/**
@@ -183,7 +183,7 @@ async function generatePdf() {
 	console.log('new page done')
 	await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']})
 	console.log('content is set')
-	await page.addStyleTag({path: __dirname + '/styles/pdf.css'});
+	await page.addStyleTag({path: __dirname + 'styles/pdf.css'});
 	console.log('style is set')
 
 	const pdf = await page.pdf({

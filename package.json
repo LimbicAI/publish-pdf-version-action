@@ -4,7 +4,7 @@
 	"description": "publish-pdf-version-action",
 	"main": "src/index.js",
 	"scripts": {
-		"build": "ncc build src/"
+		"build": "ncc build src/index.js && npx cpx \"src/**/*.{png,css}\" dist"
 	},
 	"repository": {
 		"type": "git",

@@ -11,13 +11,16 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf && \
     rm -rf /var/lib/apt/lists/*
 
-COPY src/* /
+COPY . /
 COPY package.json /
 COPY package-lock.json /
 
 RUN npm install
 RUN fc-cache -fv && \
     chmod +x /index.js && \
-    ln -s /index.js /usr/local/bin/publish-pdf-version-action
+    ln -s /index.js /usr/local/bin/publish-pdf-version-action \
+    ls -a \
+    pwd
+
 
 CMD [ "publish-pdf-version-action" ]

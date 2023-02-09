@@ -122,7 +122,7 @@ async function uploadFile(file, Key) {
             ACL: 'public-read',
         })
         .promise()
-        .then((res) => Key === 'latest/latest.pdf' && core.setOutput('url', res.Location))
+        .then((res) => Key !== 'latest/latest.pdf' && core.setOutput('url', res.Location))
         .catch((err) => core.setFailed(err.message));
 
     console.log({yooo: response});

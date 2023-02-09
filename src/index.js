@@ -218,7 +218,7 @@ async function generatePdf() {
      * uploading PDF to S3
      */
     await uploadFile(mergedPdf, `versions/${pdf_name}`);
-    await uploadFile(mergedPdf, 'latest/latest.pdf');
+    await uploadFile(mergedPdf, 'latest/Limbic Access - Instructions for Use (IFU).pdf');
 }
 
 generatePdf().catch((err) => core.setFailed(err.message));

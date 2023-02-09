@@ -40,7 +40,7 @@ async function getVersion(type) {
     /**
      * getting current version from input
      */
-    const version = core.getInput('version') || '3.0.5';
+    const version = core.getInput('version');
 
     if (type === 'short') {
         return version.split('.')[0];

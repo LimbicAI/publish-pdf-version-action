@@ -112,7 +112,7 @@ async function checkIfFileExist(fileName) {
 }
 
 async function uploadFile(file, Key) {
-    const response = await s3
+    return await s3
         .upload({
             Bucket,
             Body: Buffer.from(file),
@@ -122,11 +122,11 @@ async function uploadFile(file, Key) {
             ACL: 'public-read',
         })
         .promise()
-        .then((res) => Key !== 'latest/latest.pdf' && core.setOutput('url', res.Location))
+        .then((res) => {
+            console.log(`Uploaded ${Key}`);
+            Key !== 'latest/latest.pdf' && core.setOutput('url', res.Location);
+        })
         .catch((err) => core.setFailed(err.message));
-
-    console.log({yooo: response});
-    return response;
 }
 
 async function mapAllFiles(currentPdfName) {

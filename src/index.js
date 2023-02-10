@@ -10,6 +10,7 @@ const {setOutput} = require('@actions/core');
 const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
+const pdf_name = core.getInput('pdf_name');
 
 const s3 = new S3({
     region: core.getInput('region'),
@@ -28,19 +29,18 @@ async function appendPDF(firstPdf, secondPdf) {
     return await second.save();
 }
 
-async function getCurrentDate() {
+async function getReleaseDate() {
     /**
      * getting current date
      */
-    const d = new Date();
-    return [('0' + d.getDate()).slice(-2), ('0' + (d.getMonth() + 1)).slice(-2), d.getFullYear()].join('-');
+    return pdf_name.match(/\d{2}-\d{2}-\d{4}/)[0];
 }
 
 async function getVersion(type) {
     /**
      * getting current version from input
      */
-    const version = core.getInput('version');
+    const version = pdf_name.split('-')[0];
 
     if (type === 'short') {
         return version.split('.')[0];
@@ -122,10 +122,7 @@ async function uploadFile(file, Key) {
             ACL: 'public-read',
         })
         .promise()
-        .then((res) => {
-            console.log(`Uploaded ${Key}`);
-            Key !== 'latest/latest.pdf' && core.setOutput('url', res.Location);
-        })
+        .then(() => console.log(`Uploaded ${Key}`))
         .catch((err) => core.setFailed(err.message));
 }
 
@@ -156,8 +153,7 @@ async function getTemplateHtml(fileName) {
 }
 
 async function generatePdf() {
-    const name = `${await getVersion()}-${await getCurrentDate()}.pdf`;
-    const mapped = await mapAllFiles(name);
+    const mapped = await mapAllFiles(pdf_name);
     if (!mapped) return;
 
     /**
@@ -171,12 +167,11 @@ async function generatePdf() {
     /**
      * creating the template from html using handlebars
      */
-
     const template = await hb.compile(bodyTemplate, {strict: true});
     const html = template({
         version: await getVersion(),
         shortVersion: await getVersion('short'),
-        releaseDate: await getCurrentDate(),
+        releaseDate: await getReleaseDate(),
         previousFiles: mapped,
         manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
         dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString('base64'),
@@ -191,7 +186,7 @@ async function generatePdf() {
     /**
      * launching puppeteer to generate the version PDF
      */
-    console.log(`Starting PDF generation with ${name} name`);
+    console.log(`Starting PDF generation with ${pdf_name} name`);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: true,
@@ -222,8 +217,8 @@ async function generatePdf() {
     /**
      * uploading PDF to S3
      */
-    await uploadFile(mergedPdf, `versions/${name}`);
-    await uploadFile(mergedPdf, 'latest/latest.pdf');
+    await uploadFile(mergedPdf, `versions/${pdf_name}`);
+    await uploadFile(mergedPdf, 'latest/Limbic Access - Instructions for Use (IFU).pdf');
 }
 
 generatePdf().catch((err) => core.setFailed(err.message));

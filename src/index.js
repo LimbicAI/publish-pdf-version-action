@@ -10,7 +10,7 @@ const {setOutput} = require('@actions/core');
 const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
-const pdf_name = core.getInput('pdf_name');
+const pdfName = core.getInput('pdfName');
 
 const s3 = new S3({
     region: core.getInput('region'),
@@ -33,14 +33,14 @@ async function getReleaseDate() {
     /**
      * getting current date
      */
-    return pdf_name.match(/\d{2}-\d{2}-\d{4}/)[0];
+    return pdfName.match(/\d{2}-\d{2}-\d{4}/)[0];
 }
 
 async function getVersion(type) {
     /**
      * getting current version from input
      */
-    const version = pdf_name.split('-')[0];
+    const version = pdfName.split('-')[0];
 
     if (type === 'short') {
         return version.split('.')[0];
@@ -153,7 +153,7 @@ async function getTemplateHtml(fileName) {
 }
 
 async function generatePdf() {
-    const mapped = await mapAllFiles(pdf_name);
+    const mapped = await mapAllFiles(pdfName);
     if (!mapped) return;
 
     /**
@@ -186,7 +186,7 @@ async function generatePdf() {
     /**
      * launching puppeteer to generate the version PDF
      */
-    console.log(`Starting PDF generation with ${pdf_name} name`);
+    console.log(`Starting PDF generation with ${pdfName} name`);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: true,
@@ -217,7 +217,7 @@ async function generatePdf() {
     /**
      * uploading PDF to S3
      */
-    await uploadFile(mergedPdf, `versions/${pdf_name}`);
+    await uploadFile(mergedPdf, `versions/${pdfName}`);
     await uploadFile(mergedPdf, 'latest/Limbic Access - Instructions for Use (IFU).pdf');
 }
 

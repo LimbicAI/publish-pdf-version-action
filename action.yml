@@ -13,8 +13,8 @@ inputs:
   secretAccessKey:
     description: "AWS secret access key to bucket"
     required: true
-  version:
-    description: 'Current version of Limbic Access'
+  pdfName:
+    description: 'Name of the pdf to be generated'
     required: true
   bucket:
     description: 'S3 bucket name'

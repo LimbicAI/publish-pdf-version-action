@@ -32,6 +32,36 @@ td {
 	padding: 8px;
 }
 
+.header-table {
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.header-table-data {
+	width: 15%;
+	font-size: 0.8em;
+	padding: 2px;
+}
+
+.header-table-title {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	min-width: 40%;
+	font-size: 1.2em;
+	padding: 2px;
+	text-align: center
+}
+
+.header-table-logo {
+	padding: 2px;
+}
+
+.logo-image {
+	width: 100%;
+	height: auto;
+	margin: 0;
+}
+
 .paragraph {
 	margin: 30px 0 20px;
 }

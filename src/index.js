@@ -12,10 +12,11 @@ const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 const pdfName = core.getInput('pdfName');
 
+
 const s3 = new S3({
     region: core.getInput('region'),
     accessKeyId: core.getInput('accessKeyId'),
-    secretAccessKey: core.getInput('secretAccessKey'),
+    secretAccessKey: core.getInput('secretAccessKey')
 });
 
 async function appendPDF(firstPdf, secondPdf) {
@@ -160,8 +161,7 @@ async function generatePdf() {
      * downloading base PDF and templates
      */
     const basePDF = await getAsset(basePdf);
-    const bodyTemplate = await getTemplateHtml('pdf.html');
-    const headerTemplate = await getTemplateHtml('header.html');
+    const bodyTemplate = await getTemplateHtml('pdf_v2.html');
     const footerTemplate = await getTemplateHtml('footer.html');
 
     /**
@@ -181,6 +181,7 @@ async function generatePdf() {
         ukca: readFileSync('/assets/ukca.png').toString('base64'),
         caution: readFileSync('/assets/caution.png').toString('base64'),
         eifu: readFileSync('/assets/eifu.png').toString('base64'),
+        logo: readFileSync('/assets/logo.png').toString('base64'),
     });
 
     /**
@@ -200,13 +201,12 @@ async function generatePdf() {
         format: 'A4',
         printBackground: true,
         displayHeaderFooter: true,
-        headerTemplate,
         footerTemplate,
         margin: {
-            top: '4cm',
+            top: '1.2cm',
             bottom: '2.3cm',
-            right: '2cm',
-            left: '1.9cm',
+            right: '1.5cm',
+            left: '1.5cm',
         },
     });
     await browser.close();

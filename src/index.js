@@ -189,6 +189,7 @@ async function generatePdf() {
     caution: readFileSync('/assets/caution.png').toString('base64'),
     eifu: readFileSync('/assets/eifu.png').toString('base64'),
     logo: readFileSync('/assets/logo.png').toString('base64'),
+    md: readFileSync('/assets/md.png').toString('base64'),
   });
 
   /**

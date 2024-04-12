@@ -11,6 +11,7 @@ const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 const pdfName = core.getInput('pdfName');
+const outputPdfKey = core.getInput('outputPdfKey');
 
 const s3 = new S3({
   region: core.getInput('region'),
@@ -226,10 +227,7 @@ async function generatePdf() {
    * uploading PDF to S3
    */
   await uploadFile(mergedPdf, `versions/${pdfName}`);
-  await uploadFile(
-    mergedPdf,
-    'latest/Limbic Access - Instructions for Use (IFU).pdf'
-  );
+  await uploadFile(mergedPdf, outputPdfKey);
 }
 
 generatePdf().catch((err) => core.setFailed(err.message));

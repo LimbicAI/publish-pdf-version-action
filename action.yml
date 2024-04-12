@@ -5,13 +5,13 @@ runs:
   image: 'Dockerfile'
 inputs:
   region:
-    description: "The region of the bucket"
+    description: 'The region of the bucket'
     required: true
   accessKeyId:
-    description: "AWS access key to bucket"
+    description: 'AWS access key to bucket'
     required: true
   secretAccessKey:
-    description: "AWS secret access key to bucket"
+    description: 'AWS secret access key to bucket'
     required: true
   pdfName:
     description: 'Name of the pdf to be generated'
@@ -24,6 +24,9 @@ inputs:
     required: true
   basePdf:
     description: 'Name of the base PDF'
+    required: true
+  outputPdfKey:
+    description: 'The key where to save the latest pdf'
     required: true
 outputs:
   url:

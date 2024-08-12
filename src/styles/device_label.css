@@ -1,25 +1,24 @@
 .lb-device-label-box {
     display: flex;
     flex-wrap: wrap;
-    max-width: 200px;
-    padding: 0 16px;
+    max-width: 390px;
     background: white;
 }
 
 .lb-device-label-container {
     display: flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 
 .lb-device-label-container img {
-    width: 40px;
-    height: 40px;
-    margin: 0 5px 0 0;
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 0 0;
 }
 
 .lb-device-label-container .lb-logo-big {
-    width: 50px;
+    width: 100px;
 }
 
 .lb-device-label-container:last-of-type img {
@@ -27,16 +26,16 @@
 }
 
 .lb-device-label-container .lb-label {
-    margin: 0 10px 0 0;
+    margin: 0 20px 0 0;
 }
 
 .lb-device-label-container .lb-label .label-text {
-    font-size: 10px !important;
+    font-size: 20px !important;
     line-height: 100%;
 }
 
 .lb-device-label-container .lb-label a .label-text {
-    font-size: 10px !important;
+    font-size: 20px !important;
     line-height: 100%;
 }
 

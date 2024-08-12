@@ -275,16 +275,16 @@ async function generateDeviceLabel() {
     const page = await browser.newPage();
 
     // Set a larger viewport with a high device scale factor
-    const largeWidth = 930;  // 2x of 465 for high quality
-    const largeHeight = 1000; // 2x of 500 for high quality
-    await page.setViewport({ width: largeWidth, height: largeHeight, deviceScaleFactor: 2 });
+    const largeWidth = 390; // 2x 195
+    const largeHeight = 500; // 2x 250
+    await page.setViewport({ width: largeWidth, height: largeHeight });
     await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']});
     await page.addStyleTag({path: '/styles/device_label.css'});
 
     const pngBuffer = await page.screenshot({
         fullPage: true,
         omitBackground: false, // Keep the background color
-        path: "device-label.png", // Save the PNG file with the specified name
+        path: "device-label_noscale.png", // Save the PNG file with the specified name
     });
 
     await browser.close();
@@ -294,7 +294,7 @@ async function generateDeviceLabel() {
     /**
      * uploading device label to S3
      */
-    await uploadFile(pngBuffer, 'label/device-label.png');
+    await uploadFile(pngBuffer, 'label/device-label_noscale.png');
 }
 
 async function generateAssets() {

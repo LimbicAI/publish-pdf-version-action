@@ -6,6 +6,8 @@ const {readFileSync} = require('fs');
 const S3 = require('aws-sdk/clients/s3');
 const {PDFDocument} = require('pdf-lib');
 const {setOutput} = require('@actions/core');
+const fs = require("fs");
+const path = require("path");
 
 const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
@@ -238,4 +240,68 @@ async function generatePdf() {
     await uploadFile(mergedPdf, 'latest/Limbic Access - Instructions for Use (IFU).pdf');
 }
 
-generatePdf().catch((err) => core.setFailed(err.message));
+async function generateDeviceLabel() {
+    /**
+     * Loading HTML template and assets
+     */
+    const bodyTemplate = await getTemplateHtml('device_label.html');
+
+    /**
+     * Creating the template from HTML using Handlebars
+     */
+    const template = hb.compile(bodyTemplate, {strict: true});
+    const html = template({
+        version: await getVersion(),
+        shortVersion: await getVersion('short'),
+        manufacturer: fs.readFileSync(path.resolve(__dirname, 'assets', 'manufacturer.png')).toString('base64'),
+        dateManufacturer: fs.readFileSync(path.resolve(__dirname, 'assets', 'dateManufacturer.png')).toString('base64'),
+        ref: fs.readFileSync(path.resolve(__dirname, 'assets', 'ref.png')).toString('base64'),
+        lot: fs.readFileSync(path.resolve(__dirname, 'assets', 'lot.png')).toString('base64'),
+        udi: fs.readFileSync(path.resolve(__dirname, 'assets', 'udi.png')).toString('base64'),
+        ukca: fs.readFileSync(path.resolve(__dirname, 'assets', 'ukca.png')).toString('base64'),
+        caution: fs.readFileSync(path.resolve(__dirname, 'assets', 'caution.png')).toString('base64'),
+        eifu: fs.readFileSync(path.resolve(__dirname, 'assets', 'eifu.png')).toString('base64'),
+        logo: fs.readFileSync(path.resolve(__dirname, 'assets', 'logo.png')).toString('base64'),
+    });
+
+    /**
+     * Launching Puppeteer to generate the PNG image
+     */
+    console.log(`Starting device label generation`);
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,
+        executablePath: 'google-chrome-stable',
+    });
+
+    const page = await browser.newPage();
+
+    // Set a larger viewport with a high device scale factor
+    const largeWidth = 930;  // 2x of 465 for high quality
+    const largeHeight = 1000; // 2x of 500 for high quality
+    await page.setViewport({ width: largeWidth, height: largeHeight, deviceScaleFactor: 2 });
+    await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']});
+    await page.addStyleTag({path: '/styles/device_label.css'});
+
+    const pngBuffer = await page.screenshot({
+        fullPage: true,
+        omitBackground: false, // Keep the background color
+        path: "device-label.png", // Save the PNG file with the specified name
+    });
+
+    await browser.close();
+
+    console.log('Done, starting the uploads...');
+
+    /**
+     * uploading PDF to S3
+     */
+    await uploadFile(pngBuffer, 'label/device-label.png');
+}
+
+async function generateAssets() {
+    await generatePdf()
+    await generateDeviceLabel()
+}
+
+generateAssets().catch((err) => core.setFailed(err.message));

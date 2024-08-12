@@ -286,7 +286,7 @@ async function generateDeviceLabel() {
     const pngBuffer = await page.screenshot({
         fullPage: true,
         omitBackground: false, // Keep the background color
-        path: "device-label_noscale.png", // Save the PNG file with the specified name
+        path: "device-label.png", // Save the PNG file with the specified name
     });
 
     await browser.close();
@@ -296,7 +296,7 @@ async function generateDeviceLabel() {
     /**
      * uploading device label to S3
      */
-    await uploadFile(pngBuffer, 'label/device-label_noscale.png');
+    await uploadFile(pngBuffer, 'label/device-label.png');
 }
 
 async function generateAssets() {

@@ -1,4 +1,11 @@
+@font-face {
+    font-family: "Aeroport";
+    src: local("Aeroport"),
+    url('../assets/Aeroport.ttf') format("truetype");
+}
+
 .lb-device-label-box {
+    font-family: Aeroport, "Roboto", sans-serif;
     display: flex;
     flex-wrap: wrap;
     max-width: 390px;

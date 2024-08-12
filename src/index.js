@@ -240,4 +240,68 @@ async function generatePdf() {
     await uploadFile(mergedPdf, 'latest/Limbic Access - Instructions for Use (IFU).pdf');
 }
 
-generatePdf().catch((err) => core.setFailed(err.message));
+async function generateDeviceLabel() {
+    /**
+     * Loading HTML template and assets
+     */
+    const bodyTemplate = await getTemplateHtml('device_label.html');
+
+    /**
+     * Creating the template from HTML using Handlebars
+     */
+    const template = hb.compile(bodyTemplate, {strict: true});
+    const html = template({
+        version: await getVersion(),
+        shortVersion: await getVersion('short'),
+        manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
+        dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString('base64'),
+        ref: readFileSync('/assets/ref.png').toString('base64'),
+        lot: readFileSync('/assets/lot.png').toString('base64'),
+        udi: readFileSync('/assets/udi.png').toString('base64'),
+        ukca: readFileSync('/assets/ukca.png').toString('base64'),
+        caution: readFileSync('/assets/caution.png').toString('base64'),
+        eifu: readFileSync('/assets/eifu.png').toString('base64'),
+        logo: readFileSync('/assets/logo.png').toString('base64'),
+    });
+
+    /**
+     * Launching Puppeteer to generate the PNG image
+     */
+    console.log(`Starting device label generation`);
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,
+        executablePath: 'google-chrome-stable',
+    });
+
+    const page = await browser.newPage();
+
+    // Set a larger viewport with a high device scale factor
+    const largeWidth = 390; // 2x 195
+    const largeHeight = 500; // 2x 250
+    await page.setViewport({ width: largeWidth, height: largeHeight });
+    await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']});
+    await page.addStyleTag({path: '/styles/device_label.css'});
+
+    const pngBuffer = await page.screenshot({
+        fullPage: true,
+        omitBackground: false, // Keep the background color
+        path: "device-label.png", // Save the PNG file with the specified name
+    });
+
+    await browser.close();
+
+    console.log('Done, starting the uploads...');
+
+    /**
+     * uploading device label to S3
+     */
+    await uploadFile(pngBuffer, 'label/device-label.png');
+}
+
+async function generateAssets() {
+    await generatePdf()
+    await generateDeviceLabel()
+}
+
+generateAssets().catch((err) => core.setFailed(err.message));

@@ -292,7 +292,7 @@ async function generateDeviceLabel() {
     console.log('Done, starting the uploads...');
 
     /**
-     * uploading PDF to S3
+     * uploading device label to S3
      */
     await uploadFile(pngBuffer, 'label/device-label.png');
 }

@@ -17,7 +17,7 @@ In a github actions file you can add this action using this configuration
     baseUrl: <public url>
     bucket: <s3 bucket>
     basePdf: <pdf to be appended>
-    outputPdfKey: <key to save the new pdf>
+    latestPdfKey: <pdf name to save in latest folder (should not change as other projects depend on the static url)>
 ```
 
 ### Required inputs
@@ -29,4 +29,4 @@ In a github actions file you can add this action using this configuration
 `baseUrl` - Public domain where the PDFs will be available (the domain of the bucket).
 `basePdf` - Name of the PDF file that will have the versions front page prepend to, this is relative to `s3://bucket/assets/`.
 `pdfName` - Name of the new versioned pdf, expected to be in the format `M.m.p-dd-mm-yyyy` where `M`, `m`, `p` are major, minor and patch version numbers according to semver, and `dd-mm-yyyy` is the release date.
-`outputPdfKey` - the key where to save the latest pdf, this is relative to `s3://bucket/`
+`latestPdfKey` - the key where to save the latest pdf, this is relative to `s3://bucket/latest/`

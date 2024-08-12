@@ -138,7 +138,26 @@ async function mapAllFiles(currentPdfName) {
     const mapped = [];
 
     previousFiles.forEach((item) => {
-        mapped.push({build: item.split('-')[0], date: item.match(/\d{2}-\d{2}-\d{4}/)[0]});
+        const build = item.split('-')[0];
+        const date = item.match(/\d{2}-\d{2}-\d{4}/)[0];
+        mapped.push({build, date});
+    });
+
+    // Sort versions numerically
+    mapped.sort((a, b) => {
+        // Extract the version numbers from the strings
+        const versionA = a.build.split('-')[0].split('.').map(Number);
+        const versionB = b.build.split('-')[0].split('.').map(Number);
+
+        // Compare each part of the version number
+        for (let i = 0; i < Math.max(versionA.length, versionB.length); i++) {
+            const numA = versionA[i] || 0;
+            const numB = versionB[i] || 0;
+            if (numA !== numB) {
+                return numA - numB;
+            }
+        }
+        return 0;
     });
 
     return mapped;

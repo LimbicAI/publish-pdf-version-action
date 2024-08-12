@@ -12,6 +12,7 @@ const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 const pdfName = core.getInput('pdfName');
 
+
 const s3 = new S3({
     region: core.getInput('region'),
     accessKeyId: core.getInput('accessKeyId'),
@@ -50,7 +51,6 @@ async function getVersion(type) {
 }
 
 async function getAsset(file) {
-    console.log({file})
     const params = {
         Bucket,
         Key: `assets/${file}`,
@@ -190,15 +190,15 @@ async function generatePdf() {
         shortVersion: await getVersion('short'),
         releaseDate: await getReleaseDate(),
         previousFiles: mapped,
-        manufacturer: readFileSync('src/assets/manufacturer.png').toString('base64'),
-        dateManufacturer: readFileSync('/.assets/dateManufacturer.png').toString('base64'),
-        ref: readFileSync('src/assets/ref.png').toString('base64'),
-        lot: readFileSync('src/assets/lot.png').toString('base64'),
-        udi: readFileSync('src/assets/udi.png').toString('base64'),
-        ukca: readFileSync('src/assets/ukca.png').toString('base64'),
-        caution: readFileSync('src/assets/caution.png').toString('base64'),
-        eifu: readFileSync('src/assets/eifu.png').toString('base64'),
-        logo: readFileSync('src/assets/logo.png').toString('base64'),
+        manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
+        dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString('base64'),
+        ref: readFileSync('/assets/ref.png').toString('base64'),
+        lot: readFileSync('/assets/lot.png').toString('base64'),
+        udi: readFileSync('/assets/udi.png').toString('base64'),
+        ukca: readFileSync('/assets/ukca.png').toString('base64'),
+        caution: readFileSync('/assets/caution.png').toString('base64'),
+        eifu: readFileSync('/assets/eifu.png').toString('base64'),
+        logo: readFileSync('/assets/logo.png').toString('base64'),
     });
 
     /**

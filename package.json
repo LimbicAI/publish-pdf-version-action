@@ -23,6 +23,7 @@
 		"puppeteer": "^19.6.3"
 	},
 	"devDependencies": {
-		"@vercel/ncc": "^0.28.5"
+		"@vercel/ncc": "^0.28.5",
+		"dotenv": "^16.4.5"
 	}
 }

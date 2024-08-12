@@ -1,0 +1,60 @@
+.lb-device-label-box {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 390px;
+    background: white;
+}
+
+.lb-device-label-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.lb-device-label-container img {
+    width: 80px;
+    height: 80px;
+    margin: 0 10px 0 0;
+}
+
+.lb-device-label-container .lb-logo-big {
+    width: 100px;
+}
+
+.lb-device-label-container:last-of-type img {
+    margin: 0;
+}
+
+.lb-device-label-container .lb-label {
+    margin: 0 20px 0 0;
+}
+
+.lb-device-label-container .lb-label .label-text {
+    font-size: 20px !important;
+    line-height: 100%;
+}
+
+.lb-device-label-container .lb-label a .label-text {
+    font-size: 20px !important;
+    line-height: 100%;
+}
+
+.lb-device-label-container .lb-label a:link {
+    color: #ec9cc8;
+    text-decoration: none;
+}
+
+.lb-device-label-container .lb-label a:visited {
+    text-decoration: none;
+    color: #ec9cc8;
+}
+
+.lb-device-label-container .lb-label a:hover {
+    text-decoration: none;
+    color: #ec9cc8;
+}
+
+.lb-device-label-container .lb-label a:active {
+    text-decoration: none;
+    color: #ec9cc8;
+}

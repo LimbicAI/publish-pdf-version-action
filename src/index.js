@@ -6,8 +6,6 @@ const {readFileSync} = require('fs');
 const S3 = require('aws-sdk/clients/s3');
 const {PDFDocument} = require('pdf-lib');
 const {setOutput} = require('@actions/core');
-const fs = require("fs");
-const path = require("path");
 
 const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
@@ -253,15 +251,15 @@ async function generateDeviceLabel() {
     const html = template({
         version: await getVersion(),
         shortVersion: await getVersion('short'),
-        manufacturer: fs.readFileSync(path.resolve(__dirname, 'assets', 'manufacturer.png')).toString('base64'),
-        dateManufacturer: fs.readFileSync(path.resolve(__dirname, 'assets', 'dateManufacturer.png')).toString('base64'),
-        ref: fs.readFileSync(path.resolve(__dirname, 'assets', 'ref.png')).toString('base64'),
-        lot: fs.readFileSync(path.resolve(__dirname, 'assets', 'lot.png')).toString('base64'),
-        udi: fs.readFileSync(path.resolve(__dirname, 'assets', 'udi.png')).toString('base64'),
-        ukca: fs.readFileSync(path.resolve(__dirname, 'assets', 'ukca.png')).toString('base64'),
-        caution: fs.readFileSync(path.resolve(__dirname, 'assets', 'caution.png')).toString('base64'),
-        eifu: fs.readFileSync(path.resolve(__dirname, 'assets', 'eifu.png')).toString('base64'),
-        logo: fs.readFileSync(path.resolve(__dirname, 'assets', 'logo.png')).toString('base64'),
+        manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
+        dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString('base64'),
+        ref: readFileSync('/assets/ref.png').toString('base64'),
+        lot: readFileSync('/assets/lot.png').toString('base64'),
+        udi: readFileSync('/assets/udi.png').toString('base64'),
+        ukca: readFileSync('/assets/ukca.png').toString('base64'),
+        caution: readFileSync('/assets/caution.png').toString('base64'),
+        eifu: readFileSync('/assets/eifu.png').toString('base64'),
+        logo: readFileSync('/assets/logo.png').toString('base64'),
     });
 
     /**

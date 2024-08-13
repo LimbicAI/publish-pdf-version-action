@@ -18,6 +18,9 @@ In a github actions file you can add this action using this configuration
     bucket: <s3 bucket>
     basePdf: <pdf to be appended>
     latestPdfKey: <pdf name to save in latest folder (should not change as other projects depend on the static url)>
+    udi: <udi without version>
+    manufacturingDate: <project manufacturing date>
+    ref: <project name as shown on documents (Limbic Access / Limbic Care)>
 ```
 
 ### Required inputs
@@ -30,3 +33,6 @@ In a github actions file you can add this action using this configuration
 `basePdf` - Name of the PDF file that will have the versions front page prepend to, this is relative to `s3://bucket/assets/`.
 `pdfName` - Name of the new versioned pdf, expected to be in the format `M.m.p-dd-mm-yyyy` where `M`, `m`, `p` are major, minor and patch version numbers according to semver, and `dd-mm-yyyy` is the release date.
 `latestPdfKey` - the key where to save the latest pdf, this is relative to `s3://bucket/latest/`
+`udi` - UDI without version
+`manufacturingDate` - Manufacturing date shown in documents
+`ref` - REF shown in document (Limbic Access / Limbic Care)

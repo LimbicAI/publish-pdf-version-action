@@ -249,8 +249,8 @@ async function generatePdf() {
   /**
    * uploading PDF to S3
    */
-  await uploadFile(mergedPdf, `versions/${pdfName}`, 'application/pdf');
-  await uploadFile(mergedPdf, `latest/${latestPdfKey}`, 'application/pdf');
+  await uploadFile(mergedPdf, `versions/${pdfName}.pdf`, 'application/pdf');
+  await uploadFile(mergedPdf, `latest/${latestPdfKey}.pdf`, 'application/pdf');
 }
 
 async function generateDeviceLabel() {

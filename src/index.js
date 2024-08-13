@@ -115,13 +115,13 @@ async function checkIfFileExist(fileName) {
     });
 }
 
-async function uploadFile(file, Key) {
+async function uploadFile(file, Key, type) {
   return await s3
     .upload({
       Bucket,
       Body: Buffer.from(file),
       Key,
-      ContentType: 'application/pdf',
+      ContentType: `${type}`,
       ContentDisposition: 'inline',
       ACL: 'public-read',
     })
@@ -249,8 +249,8 @@ async function generatePdf() {
   /**
    * uploading PDF to S3
    */
-  await uploadFile(mergedPdf, `versions/${pdfName}`);
-  await uploadFile(mergedPdf, `latest/${latestPdfKey}`);
+  await uploadFile(mergedPdf, `versions/${pdfName}`, 'application/pdf');
+  await uploadFile(mergedPdf, `latest/${latestPdfKey}`, 'application/pdf');
 }
 
 async function generateDeviceLabel() {
@@ -313,7 +313,7 @@ async function generateDeviceLabel() {
   /**
    * uploading device label to S3
    */
-  await uploadFile(pngBuffer, 'label/device-label.png');
+  await uploadFile(pngBuffer, 'label/device-label.png', 'image/png');
 }
 
 async function generateAssets() {

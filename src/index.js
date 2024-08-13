@@ -12,6 +12,9 @@ const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 const pdfName = core.getInput('pdfName');
 const latestPdfKey = core.getInput('latestPdfKey');
+const projectUdi = core.getInput('udi');
+const projectManufacturingDate = core.getInput('manufacturingDate');
+const projectName = core.getInput('ref');
 
 const s3 = new S3({
   region: core.getInput('region'),
@@ -182,7 +185,7 @@ async function generatePdf() {
    * downloading base PDF and templates
    */
   const basePDF = await getAsset(basePdf);
-  const bodyTemplate = await getTemplateHtml('pdf_v2.html');
+  const bodyTemplate = await getTemplateHtml('pdf_v3.html');
   const footerTemplate = await getTemplateHtml('footer.html');
 
   /**
@@ -194,6 +197,9 @@ async function generatePdf() {
     shortVersion: await getVersion('short'),
     releaseDate: await getReleaseDate(),
     previousFiles: mapped,
+    projectUdi,
+    projectName,
+    projectManufacturingDate,
     manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
     dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString(
       'base64'
@@ -251,7 +257,7 @@ async function generateDeviceLabel() {
   /**
    * Loading HTML template and assets
    */
-  const bodyTemplate = await getTemplateHtml('device_label.html');
+  const bodyTemplate = await getTemplateHtml('device_label_v2.html');
 
   /**
    * Creating the template from HTML using Handlebars
@@ -260,6 +266,9 @@ async function generateDeviceLabel() {
   const html = template({
     version: await getVersion(),
     shortVersion: await getVersion('short'),
+    projectUdi,
+    projectName,
+    projectManufacturingDate,
     manufacturer: readFileSync('/assets/manufacturer.png').toString('base64'),
     dateManufacturer: readFileSync('/assets/dateManufacturer.png').toString('base64'),
     ref: readFileSync('/assets/ref.png').toString('base64'),

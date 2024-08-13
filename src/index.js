@@ -313,7 +313,7 @@ async function generateDeviceLabel() {
   /**
    * uploading device label to S3
    */
-  await uploadFile(pngBuffer, 'label/device-label', 'image/png');
+  await uploadFile(pngBuffer, 'label/device-label.png', 'image/png');
 }
 
 async function generateAssets() {

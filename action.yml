@@ -25,8 +25,17 @@ inputs:
   basePdf:
     description: 'Name of the base PDF'
     required: true
-  outputPdfKey:
+  latestPdfKey:
     description: 'The key where to save the latest pdf'
+    required: true
+  udi:
+    description: 'Project udi (without version)'
+    required: true
+  manufacturingDate:
+    description: 'Project manufacturing date'
+    required: true
+  ref:
+    description: 'Project name shown on the documents (Limbic Access / Limbic Care)'
     required: true
 outputs:
   url:

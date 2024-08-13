@@ -121,7 +121,7 @@ async function uploadFile(file, Key, type) {
       Bucket,
       Body: Buffer.from(file),
       Key,
-      ContentType: `application/${type}`,
+      ContentType: `${type}`,
       ContentDisposition: 'inline',
       ACL: 'public-read',
     })
@@ -249,8 +249,8 @@ async function generatePdf() {
   /**
    * uploading PDF to S3
    */
-  await uploadFile(mergedPdf, `versions/${pdfName}`, 'pdf');
-  await uploadFile(mergedPdf, `latest/${latestPdfKey}`, 'pdf');
+  await uploadFile(mergedPdf, `versions/${pdfName}`, 'application/pdf');
+  await uploadFile(mergedPdf, `latest/${latestPdfKey}`, 'application/pdf');
 }
 
 async function generateDeviceLabel() {
@@ -313,7 +313,7 @@ async function generateDeviceLabel() {
   /**
    * uploading device label to S3
    */
-  await uploadFile(pngBuffer, 'label/device-label', 'png');
+  await uploadFile(pngBuffer, 'label/device-label', 'image/png');
 }
 
 async function generateAssets() {

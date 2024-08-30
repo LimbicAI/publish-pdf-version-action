@@ -257,7 +257,7 @@ async function generateDeviceLabel() {
   /**
    * Loading HTML template and assets
    */
-  const bodyTemplate = await getTemplateHtml('device_label_v2.html');
+  const bodyTemplate = await getTemplateHtml('device_label_v3.html');
 
   /**
    * Creating the template from HTML using Handlebars
@@ -294,8 +294,8 @@ async function generateDeviceLabel() {
   const page = await browser.newPage();
 
   // Set a larger viewport with a high device scale factor
-  const largeWidth = 390; // 2x 195
-  const largeHeight = 500; // 2x 250
+  const largeWidth = 450;
+  const largeHeight = 520;
   await page.setViewport({ width: largeWidth, height: largeHeight });
   await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']});
   await page.addStyleTag({path: '/styles/device_label.css'});

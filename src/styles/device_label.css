@@ -4,18 +4,39 @@
     url('../assets/Aeroport.ttf') format("truetype");
 }
 
-.lb-device-label-box {
+html, body {
     font-family: Aeroport, "Roboto", sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0;
     display: flex;
-    flex-wrap: wrap;
-    max-width: 390px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lb-device-label-box {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    max-width: 90%;
     background: white;
+    margin: auto;
+    gap: 10px;
+    padding: 10px 0;
+    justify-content: center;
 }
 
 .lb-device-label-container {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    width: 100%;
+}
+
+.lb-device-label-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .lb-device-label-container img {
@@ -46,22 +67,6 @@
     line-height: 100%;
 }
 
-.lb-device-label-container .lb-label a:link {
-    color: #ec9cc8;
-    text-decoration: none;
-}
-
-.lb-device-label-container .lb-label a:visited {
-    text-decoration: none;
-    color: #ec9cc8;
-}
-
-.lb-device-label-container .lb-label a:hover {
-    text-decoration: none;
-    color: #ec9cc8;
-}
-
-.lb-device-label-container .lb-label a:active {
-    text-decoration: none;
-    color: #ec9cc8;
+* {
+    box-sizing: border-box;
 }

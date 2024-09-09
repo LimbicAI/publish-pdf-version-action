@@ -11,18 +11,18 @@ html, body {
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 }
 
 .lb-device-label-box {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    align-self: start;
     max-width: 90%;
     background: white;
-    margin: auto;
+    margin: 0 auto;
     gap: 10px;
-    padding: 10px 0;
+    padding: 0;
     justify-content: center;
 }
 

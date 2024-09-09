@@ -294,8 +294,8 @@ async function generateDeviceLabel() {
   const page = await browser.newPage();
 
   // Set a larger viewport with a high device scale factor
-  const largeWidth = 450;
-  const largeHeight = 520;
+  const largeWidth = 440;
+  const largeHeight = 550;
   await page.setViewport({ width: largeWidth, height: largeHeight });
   await page.setContent(html, {waitUntil: ['load', 'domcontentloaded', 'networkidle0']});
   await page.addStyleTag({path: '/styles/device_label.css'});

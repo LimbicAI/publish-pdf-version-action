@@ -11,6 +11,7 @@ const Bucket = core.getInput('bucket');
 const baseUrl = core.getInput('baseUrl');
 const basePdf = core.getInput('basePdf');
 const pdfName = core.getInput('pdfName');
+const pdfTemplate = core.getInput('pdfTemplate');
 const latestPdfKey = core.getInput('latestPdfKey');
 const projectUdi = core.getInput('udi');
 const projectManufacturingDate = core.getInput('manufacturingDate');
@@ -67,6 +68,8 @@ async function getAsset(file) {
 }
 
 async function getAllFiles() {
+  const versionFolder = `V${await getVersion('short')}`
+
   /**
    * getting all previous PDFs (above 1000 as well)
    */
@@ -74,7 +77,7 @@ async function getAllFiles() {
   let marker;
   const elements = [];
   while (isTruncated) {
-    let params = {Bucket, Prefix: 'versions/'};
+    let params = {Bucket, Prefix: `versions/${versionFolder}/`};
     if (marker) params.Marker = marker;
     try {
       const response = await s3.listObjects(params).promise();
@@ -180,12 +183,13 @@ async function getTemplateHtml(fileName) {
 async function generatePdf() {
   const mapped = await mapAllFiles(pdfName);
   if (!mapped) return;
+  const versionFolder = `V${await getVersion('short')}`
 
   /**
    * downloading base PDF and templates
    */
   const basePDF = await getAsset(basePdf);
-  const bodyTemplate = await getTemplateHtml('pdf_v3.html');
+  const bodyTemplate = await getTemplateHtml(pdfTemplate);
   const footerTemplate = await getTemplateHtml('footer.html');
 
   /**
@@ -249,8 +253,8 @@ async function generatePdf() {
   /**
    * uploading PDF to S3
    */
-  await uploadFile(mergedPdf, `versions/${pdfName}.pdf`, 'application/pdf');
-  await uploadFile(mergedPdf, `latest/${latestPdfKey}.pdf`, 'application/pdf');
+  await uploadFile(mergedPdf, `versions/${versionFolder}/${pdfName}.pdf`, 'application/pdf');
+  await uploadFile(mergedPdf, `latest/${versionFolder}/${latestPdfKey}.pdf`, 'application/pdf');
 }
 
 async function generateDeviceLabel() {
@@ -258,6 +262,7 @@ async function generateDeviceLabel() {
    * Loading HTML template and assets
    */
   const bodyTemplate = await getTemplateHtml('device_label_v3.html');
+  const versionFolder = `V${await getVersion('short')}`
 
   /**
    * Creating the template from HTML using Handlebars
@@ -313,7 +318,7 @@ async function generateDeviceLabel() {
   /**
    * uploading device label to S3
    */
-  await uploadFile(pngBuffer, 'label/device-label.png', 'image/png');
+  await uploadFile(pngBuffer, `label/${versionFolder}/device-label.png`, 'image/png');
 }
 
 async function generateAssets() {

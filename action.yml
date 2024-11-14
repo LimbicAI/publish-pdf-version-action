@@ -16,6 +16,9 @@ inputs:
   pdfName:
     description: 'Name of the pdf to be generated'
     required: true
+  pdfTemplate:
+    description: 'PDF template in S3'
+    required: true
   bucket:
     description: 'S3 bucket name'
     required: true

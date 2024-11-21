@@ -69,6 +69,7 @@ async function getAsset(file) {
 
 async function getAllFiles() {
   const versionFolder = `V${await getVersion('short')}`
+  const prefix = `versions/${versionFolder}/`
 
   /**
    * getting all previous PDFs (above 1000 as well)
@@ -77,18 +78,20 @@ async function getAllFiles() {
   let marker;
   const elements = [];
   while (isTruncated) {
-    let params = {Bucket, Prefix: `versions/${versionFolder}/`};
+    let params = {Bucket, Prefix: prefix};
+    console.log({params})
     if (marker) params.Marker = marker;
     try {
       const response = await s3.listObjects(params).promise();
       const objectsInFolder = response.Contents.filter((i) => i.Size > 0);
 
       objectsInFolder.forEach((item) => {
-        elements.push(item.Key.split('/')[1]);
+        elements.push(item.Key.split(prefix)[1]);
       });
       isTruncated = response.IsTruncated;
       if (isTruncated) {
-        marker = response.Contents.slice(-1)[0].Key.split('/')[1];
+        console.log({response: response.Contents})
+        marker = response.Contents.slice(-1)[0].Key.split(prefix)[1];
       }
     } catch (error) {
       throw error;
@@ -141,11 +144,14 @@ async function mapAllFiles(currentPdfName) {
   if (fileExists) return false;
 
   const previousFiles = await getAllFiles();
+  console.log({previousFiles})
   const mapped = [];
 
     previousFiles.forEach((item) => {
+        console.log(`MAPPING ${item}`);
         const build = item.split('-')[0];
         const date = item.match(/\d{2}-\d{2}-\d{4}/)[0];
+        console.log({ build, date });
         mapped.push({build, date});
     });
 
@@ -154,6 +160,7 @@ async function mapAllFiles(currentPdfName) {
         // Extract the version numbers from the strings
         const versionA = a.build.split('-')[0].split('.').map(Number);
         const versionB = b.build.split('-')[0].split('.').map(Number);
+        console.log({ versionA, versionB });
 
         // Compare each part of the version number
         for (let i = 0; i < Math.max(versionA.length, versionB.length); i++) {
